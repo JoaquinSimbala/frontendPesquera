@@ -38,13 +38,15 @@ export class CostosService {
 
   obtenerDatos(): Observable<DatosCostos> {
     const costos = this.mockData.getCostos();
-    const total = costos.reduce((acc: number, c: any) => acc + c.monto, 0);
+    const costosOperativos = costos.filter((c: any) => c.categoria?.toLowerCase() === 'operativo');
+    const totalOperativo = costosOperativos.reduce((acc: number, c: any) => acc + c.monto, 0);
+
     return of({
       costos: [...costos].reverse(),
       resumen: {
-        totalMes: total,
-        totalGeneral: total,
-        porCategoria: { 'Operativo': total }
+        totalMes: totalOperativo,
+        totalGeneral: totalOperativo,
+        porCategoria: { Operativo: totalOperativo }
       },
       categorias: ['Operativo', 'Mantenimiento', 'Administrativo']
     });
