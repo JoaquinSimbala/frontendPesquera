@@ -1,0 +1,127 @@
+<div class="modulo">
+
+  <div class="modulo-header">
+    <h2>Liquidación y Pagos</h2>
+    <p>Gestiona y aprueba los pagos de los trabajadores según su producción diaria.</p>
+  </div>
+
+  <div *ngIf="mensaje" class="alerta" [class.alerta-exito]="tipoMensaje === 'exito'"
+    [class.alerta-error]="tipoMensaje === 'error'">
+    {{ mensaje }}
+  </div>
+
+  <div *ngIf="resumen" class="tarjetas">
+    <div class="tarjeta">
+      <span class="tarjeta-valor">{{ resumen.totalRegistros }}</span>
+      <span class="tarjeta-label">Total Registros</span>
+    </div>
+    <div class="tarjeta tarjeta-amarilla">
+      <span class="tarjeta-valor">{{ resumen.pendientesAprobacion }}</span>
+      <span class="tarjeta-label">Pendientes</span>
+    </div>
+    <div class="tarjeta tarjeta-verde">
+      <span class="tarjeta-valor">S/ {{ resumen.montoAprobado | number:'1.2-2' }}</span>
+      <span class="tarjeta-label">Monto Aprobado</span>
+    </div>
+    <div class="tarjeta tarjeta-naranja">
+      <span class="tarjeta-valor">S/ {{ resumen.montoPendiente | number:'1.2-2' }}</span>
+      <span class="tarjeta-label">Monto Pendiente</span>
+    </div>
+  </div>
+
+  <div class="acciones">
+    <button class="btn-primario" (click)="mostrarFormulario = !mostrarFormulario">
+      {{ mostrarFormulario ? 'Cancelar' : '+ Registrar Liquidación Manual' }}
+    </button>
+  </div>
+
+  <div *ngIf="mostrarFormulario" class="formulario-card">
+    <h3>Nueva Liquidación</h3>
+    <div class="formulario-fila">
+
+      <div class="campo">
+        <label>Rol del trabajador</label>
+        <select [(ngModel)]="rolSeleccionado" (ngModelChange)="trabajadorSeleccionado = null">
+          <option value="">-- Selecciona un rol --</option>
+          <option *ngFor="let rol of roles" [value]="rol">{{ rol }}</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label>Trabajador</label>
+        <select [(ngModel)]="trabajadorSeleccionado" [disabled]="!rolSeleccionado">
+          <option [ngValue]="null">-- Selecciona un trabajador --</option>
+          <option *ngFor="let t of trabajadoresDelRol" [ngValue]="t.id">
+            {{ t.nombre }} — {{ t.dni }}
+          </option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label>Kilos procesados</label>
+        <input type="number" [(ngModel)]="kilosProcesados" min="0.1" step="0.1" placeholder="Ej: 200.5" />
+      </div>
+
+    </div>
+
+    <div *ngIf="rolSeleccionado" class="formulario-info">
+      <span>Tarifa: <strong>S/ {{ tarifaDelRol | number:'1.2-2' }} / kg</strong></span>
+      <span>Monto estimado: <strong class="monto-grande">S/ {{ montoEstimado | number:'1.2-2' }}</strong></span>
+    </div>
+
+    <div class="formulario-botones">
+      <button class="btn-primario" (click)="registrar()">Registrar</button>
+      <button class="btn-secundario" (click)="resetFormulario()">Cancelar</button>
+    </div>
+  </div>
+
+  <div class="tabla-card">
+    <h3>Registro de Liquidaciones</h3>
+
+    <div *ngIf="cargando" class="estado-pantalla">Cargando datos...</div>
+
+    <div *ngIf="!cargando && liquidaciones.length === 0" class="estado-pantalla">
+      No hay liquidaciones registradas aún.
+    </div>
+
+    <div *ngIf="!cargando && liquidaciones.length > 0" class="tabla-contenedor">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Trabajador</th>
+            <th>Rol</th>
+            <th>Kilos</th>
+            <th>Tarifa / kg</th>
+            <th>Monto Total</th>
+            <th>Fecha</th>
+            <th>Estado</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let liq of liquidaciones; let i = index" [class.fila-aprobada]="liq.aprobado">
+            <td>{{ i + 1 }}</td>
+            <td>{{ liq.trabajadorNombre }}</td>
+            <td>{{ liq.trabajadorRol }}</td>
+            <td>{{ liq.kilosProcesados | number:'1.1-1' }} kg</td>
+            <td>S/ {{ liq.tarifaPorKilo | number:'1.2-2' }}</td>
+            <td><strong>S/ {{ liq.montoTotal | number:'1.2-2' }}</strong></td>
+            <td>{{ liq.fechaProduccion }}</td>
+            <td>
+              <span class="badge" [class.badge-verde]="liq.aprobado" [class.badge-amarillo]="!liq.aprobado">
+                {{ liq.aprobado ? 'Aprobado' : 'Pendiente' }}
+              </span>
+            </td>
+            <td>
+              <button class="btn-aprobar" (click)="aprobar(liq.id)" [disabled]="liq.aprobado">
+                {{ liq.aprobado ? '✓ Aprobado' : 'Aprobar' }}
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>

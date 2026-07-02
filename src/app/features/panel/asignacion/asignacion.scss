@@ -1,0 +1,170 @@
+@use '../../../../variables' as v;
+
+.asignacion-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 1.5rem 2rem;
+  color: v.$color-text;
+  background: v.$color-surface;
+  box-shadow: v.$shadow-md;
+  border-radius: v.$border-radius-md;
+}
+
+h2 {
+  color: v.$color-primary;
+  text-align: center;
+  margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.subtitle {
+  text-align: center;
+  color: v.$color-text-muted;
+  margin-bottom: 2.5rem;
+  font-size: 0.95rem;
+}
+
+h3 {
+  color: v.$color-primary;
+  font-size: 1.1rem;
+  margin-bottom: 1.2rem;
+  border: none;
+  font-weight: bold;
+}
+
+h4 {
+  margin: 0;
+  color: v.$color-primary;
+  font-size: 1.05rem;
+}
+
+.empty-state, .loading-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  border: 1px dashed v.$color-border;
+  border-radius: v.$border-radius-md;
+  background-color: v.$color-bg;
+
+  .empty-icon { font-size: 3rem; margin-bottom: 1rem; }
+  h3 { margin-bottom: 0.5rem; }
+  p { color: v.$color-text-muted; max-width: 500px; margin: 0 auto; }
+}
+
+.alert-deficit, .alert-success {
+  padding: 1rem 1.5rem;
+  border-radius: v.$border-radius-md;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  .alert-icon { font-size: 1.5rem; }
+  h4 { margin: 0 0 0.2rem 0; }
+  p { margin: 0; font-size: 0.9rem; }
+}
+
+.alert-deficit {
+  background-color: #fff0f0;
+  border: 1px solid #ffcccc;
+  color: v.$color-error;
+  h4 { color: v.$color-error; }
+  strong { font-weight: bold; }
+}
+
+.alert-success {
+  background-color: #e8f5e9;
+  border: 1px solid #c8e6c9;
+  color: v.$color-success;
+  h4 { color: v.$color-success; }
+}
+
+.roles-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.2rem;
+}
+
+.role-card {
+  border: 1px solid v.$color-border;
+  border-radius: v.$border-radius-xl;
+  padding: 1.2rem;
+  background: v.$color-surface;
+
+  .role-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid v.$color-border;
+    padding-bottom: 0.8rem;
+  }
+}
+
+.table-container {
+  width: 100%;
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+
+    th {
+      color: v.$color-text;
+      font-weight: bold;
+      padding: 0.8rem 0.5rem;
+      border-bottom: 2px solid v.$color-border;
+      text-align: left;
+      font-size: 0.85rem;
+      &.text-right { text-align: right; }
+    }
+
+    td {
+      padding: 0.8rem 0.5rem;
+      border-bottom: 1px solid v.$color-bg;
+      vertical-align: middle;
+      &.text-right { text-align: right; }
+      &.worker-name { font-weight: 500; }
+    }
+  }
+
+  .no-workers {
+    text-align: center;
+    padding: 1.5rem;
+    color: v.$color-text-muted;
+    font-style: italic;
+    font-size: 0.9rem;
+  }
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.6rem;
+  border-radius: v.$border-radius-sm;
+  font-weight: bold;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  background-color: #e8f5e9;
+  color: v.$color-success;
+  border: 1px solid #c8e6c9;
+
+  &-empty {
+    background-color: v.$color-bg;
+    color: v.$color-text-muted;
+    border: 1px solid v.$color-border;
+  }
+}
+
+.font-semibold { font-weight: bold; }
+
+.btn-liquidar {
+  background: v.$color-primary;
+  color: #fff;
+  border: none;
+  padding: 0.8rem 2rem;
+  border-radius: v.$border-radius-md;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  &:hover { background: v.$color-primary-dark; }
+}
